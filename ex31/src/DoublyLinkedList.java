@@ -66,38 +66,66 @@ public class DoublyLinkedList {
     //                                 //
     //                                 //
     /////////////////////////////////////
+    public void ansSwapPairs() {
+        Node dh = new Node(0);
+        dh.next = head;
+        Node pre = dh;
+
+        while (head != null && head.next != null) {
+            Node p1 = head;
+            Node p2 = head.next;
+
+            pre.next = p2;
+            p1.next = p2.next;
+            p2.next = p1;
+
+            p2.prev = pre;
+            p1.prev = p2;
+
+            if (p1.next != null) {
+                p1.next.prev = p1;
+            }
+
+            head = p1.next;
+            pre = p1;
+        }
+
+        head = dh.next;
+        if (head != null) head.prev = null;
+    }
+
     public void swapPairs() {
         if (length == 0 || length == 1) {
             return;
         }
-        // 奇数子の配列のときペアにならないやつがいるから処理しない
-        if (length % 2 == 1) {
-            return;
-        }
 
-        var temp = head;
-        for(int i = 0; i < length; i++) {
-            var nextTemp = temp.next;
+        var dh = new Node(0);
+        dh.next = head;
 
-            if (i % 2 == 0) { // 2,4,6,...
-                temp.prev = temp.next;
-                if (temp.next == null || temp.next.next == null) {
-                    temp.next = null;
-                } else {
-                    temp.next = temp.next.next.next;
-                }
-            } else { // 1,3,5,...
-                temp.next = temp.prev;
-                if (temp.prev.prev == null){
-                    temp.prev = null;
-                } else {
-                    temp.prev = temp.prev.prev.prev;
-                }
+        var pre = dh;
+        var p1 = pre.next;
+        var p2 = p1.next;
+        while (true) {
+            pre.next = p2;
+            p1.next = p2.next;
+            p2.next = p1;
+
+            p1.prev = p2;
+            p2.prev = pre;
+            if (p1.next  != null) {
+                p1.next.prev = p1;
             }
 
-            temp = nextTemp;
+            if (p1.next == null || p1.next.next == null) {
+                break;
+            }
+            pre = p1;
+            p1 = p1.next;
+            p2 = p1.next;
         }
-        head = head.prev;
+
+        head = dh.next;
+        if (head != null) head.prev = null;
     }
 }
 
