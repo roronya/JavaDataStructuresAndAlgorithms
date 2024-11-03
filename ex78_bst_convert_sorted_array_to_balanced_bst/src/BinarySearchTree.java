@@ -81,12 +81,34 @@ public class BinarySearchTree {
     //   |   and right indices to work on sub-segments of    |
     //   |   the array.                                      |
     //   +===================================================+
-    private Node sortedArrayToBST(int[] nums, int left, int right) {
+    private Node trueSortedArrayToBST(int[] nums, int left, int right) {
         if (left > right) return null;
         int mid = left + (right - left) / 2;
         Node node = new Node(nums[mid]);
         node.left = sortedArrayToBST(nums, left, mid - 1);
         node.right = sortedArrayToBST(nums, mid + 1, right);
+        return node;
+    }
+
+    // left, rightはindex
+    // (0)
+    // [0,1] left:0, right:1
+    // middle:0
+    // node = new Node(0);
+    // node.left = [0,1], 0, -1 // return
+    // node.right = [0,1], 1, 1 // (1)
+    // (1)
+    // [0,1] left:1, right:1
+    // middle:1
+    // node = new Node(1);
+    // node.left = [0,1], 1, 0 // return
+    // node.right = [0,1], 2, 1 // return
+    private Node sortedArrayToBST(int[] nums, int left, int right) {
+        if (left > right) return null;
+        int middle = left + (right - left)/2;
+        Node node = new Node(nums[middle]);
+        node.left = sortedArrayToBST(nums, left, middle-1);
+        node.right = sortedArrayToBST(nums, middle+1, right);
         return node;
     }
 
