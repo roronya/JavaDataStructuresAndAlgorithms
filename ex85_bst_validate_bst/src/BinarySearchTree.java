@@ -45,16 +45,12 @@ public class BinarySearchTree {
 
     // WRITE KTHSMALLEST METHOD HERE //
     public Integer kthSmallest(int k) {
-        var node = root;
+        Node node = null;
         var stack = new Stack<Node>();
-        while(node != null) {
-            stack.push(node);
-            node = node.left;
-        }
-        // node is null now
+        stack.push(root);
         for(int i=0;i<k;i++) {
-            // System.out.println(Arrays.toString(stack.stream().map(n -> n.value).toArray()));
-            node = stack.pop();
+            System.out.println(Arrays.toString(stack.stream().map(n -> n.value).toArray()));
+            node = stack.peek();
             if (node.right != null) {
                 var ni = node.right;
                 while(ni != null) {
