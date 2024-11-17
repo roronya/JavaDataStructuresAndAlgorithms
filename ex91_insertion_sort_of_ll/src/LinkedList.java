@@ -60,8 +60,46 @@ public class LinkedList {
         length++;
     }
 
-    // WRITE INSERTIONSORT METHOD HERE //
     public void insertionSort() {
+        if (length < 2) return;
+
+        var sortedHead = head;
+        var unsortedHead = head.next;
+        sortedHead.next = null;
+
+        var current = unsortedHead;
+        while (current != null) {
+            if (current.value < sortedHead.value) {
+                unsortedHead = unsortedHead.next;
+                current.next = sortedHead;
+                sortedHead = current;
+            } else {
+                var pprev = sortedHead;
+                var pnext = sortedHead.next;
+                while(true) {
+                    if (pnext == null || current.value < pnext.value) {
+                        unsortedHead = unsortedHead.next;
+                        pprev.next = current;
+                        current.next = pnext;
+                        break;
+                    }
+                    pprev = pnext;
+                    pnext = pnext.next;
+                }
+
+            }
+            current = unsortedHead;
+        }
+
+        head = sortedHead;
+        var p = head;
+        while(p.next!=null) {
+            p = p.next;
+        }
+        tail = p;
+    }
+    // WRITE INSERTIONSORT METHOD HERE //
+    public void myInsertionSort() {
         if (length < 2) return;
 
         var n = head;
